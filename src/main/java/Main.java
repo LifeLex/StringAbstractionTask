@@ -1,7 +1,7 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-abstract class VersionString{
+abstract class VersionString<T>{
     private String version;
     public VersionString(String version){
         this.version= version;
@@ -11,10 +11,10 @@ abstract class VersionString{
     }
 
 
-    public abstract boolean valid(VersionString str);
+    public abstract boolean valid(T str);
     public abstract boolean valid2(String version);
 }
-class ServerString extends VersionString{
+class ServerString extends VersionString<ServerString>{
     //String address;
 
     public ServerString(String version) {
@@ -23,7 +23,7 @@ class ServerString extends VersionString{
     }
 
     @Override
-    public boolean valid(VersionString str) {
+    public boolean valid(ServerString str) {
         System.out.println("------>"+str.getVersion());
         return false;
     }
