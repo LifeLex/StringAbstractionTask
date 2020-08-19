@@ -2,25 +2,34 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 abstract class VersionString{
-    public abstract boolean valid();
+    private String version;
+    public VersionString(String version){
+        this.version= version;
+    }
+    public String getVersion(){
+        return version;
+    }
+    public abstract boolean valid(VersionString str);
 }
 class ServerString extends VersionString{
-    String address;
+    //String address;
 
-    public ServerString(String address) {
-        super();
-        this.address= address;
+    public ServerString(String version) {
+        super(version);
         System.out.println("Server String constructor");
     }
 
+    /*
     @Override
     public String toString() {
         return address;
     }
 
-    @Override
-    public boolean valid() {
+     */
 
+    @Override
+    public boolean valid(VersionString str) {
+        System.out.println("------>"+str.getVersion());
         return false;
     }
 }
@@ -28,8 +37,10 @@ class ServerString extends VersionString{
 //capture groups for comparing
 public class Main {
     public static void main(String[] args) {
+
         ServerString a = new ServerString("abc");
-        System.out.println(a.toString());
+        a.valid(a);
+        System.out.println(a.getVersion());
 
        // https://regex101.com/r/YLFEdl/1
         Pattern pattern = Pattern.compile("((?:[0-9]{1,3}\\.?){0,2}[0-9]{1,3})(?:-\\w*)?", Pattern.CASE_INSENSITIVE);
