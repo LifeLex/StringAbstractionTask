@@ -9,7 +9,10 @@ abstract class VersionString{
     public String getVersion(){
         return version;
     }
+
+
     public abstract boolean valid(VersionString str);
+    public abstract boolean valid2(String version);
 }
 class ServerString extends VersionString{
     //String address;
@@ -17,6 +20,18 @@ class ServerString extends VersionString{
     public ServerString(String version) {
         super(version);
         System.out.println("Server String constructor");
+    }
+
+    @Override
+    public boolean valid(VersionString str) {
+        System.out.println("------>"+str.getVersion());
+        return false;
+    }
+
+    @Override
+    public boolean valid2(String version) {
+        System.out.println("I'm printing version "+version);
+        return false;
     }
 
     /*
@@ -27,11 +42,11 @@ class ServerString extends VersionString{
 
      */
 
-    @Override
+    /*@Override
     public boolean valid(VersionString str) {
         System.out.println("------>"+str.getVersion());
         return false;
-    }
+    }*/
 }
 // https://regex101.com/r/vR7yO4/15 capture the whole string to get if valid
 //capture groups for comparing
@@ -39,7 +54,10 @@ public class Main {
     public static void main(String[] args) {
 
         ServerString a = new ServerString("abc");
+        ServerString b = new ServerString("cdb");
         a.valid(a);
+        b.valid(b);
+        b.valid2(b.getVersion());
         System.out.println(a.getVersion());
 
        // https://regex101.com/r/YLFEdl/1
