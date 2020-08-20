@@ -47,44 +47,9 @@ class ServerString extends VersionString<ServerString>{
 
     }
 
-    public String formatForCompare(String version1, String version2){
-        ArrayList<String>ver1= new ArrayList<String>();
-        ArrayList<String>ver2= new ArrayList<String>();
-        String result = null;
-        Pattern patterngroups = Pattern.compile("([0-9]{1,3})", Pattern.CASE_INSENSITIVE);
-        Matcher matcher1 = patterngroups.matcher("2");
-        Matcher matcher2 = patterngroups.matcher("1.9");
-        int nmatchsgroups = matcher1.groupCount();
 
-        while (matcher1.find()){
-            //starting on 1 because 0 is the whole string
-            for (int i = 1; i <= matcher1.groupCount(); i++) {
-                ver1.add(matcher1.group(i));
-                //System.out.println(matcher1.group(i));
-            }
-        }
-        System.out.println(ver1);
-        if(ver1.size()<3){
-            while(ver1.size()<3){
-                ver1.add("0");
-            }
-        }
-        System.out.println(ver1);
-        while(matcher2.find()){
-            for (int i = 1; i <= matcher2.groupCount(); i++) {
-                ver2.add(matcher2.group(i));
-            }
-        }
-        System.out.println(ver2);
-        if(ver2.size()<3){
-            while(ver2.size()<3){
-                ver2.add("0");
-            }
-        }
-        System.out.println(ver2);
 
-        return String.valueOf(nmatchsgroups);
-    }
+
 
     /*
     @Override
@@ -110,7 +75,7 @@ public class Main {
         //a.valid(a);
         //b.valid(b);
         b.valid2(b.getVersion());
-        System.out.println(a.formatForCompare(a.getVersion(), b.getVersion()));
+        System.out.println(formatForCompare(a.getVersion(), b.getVersion()));
         /*System.out.println(a.getVersion());
 
        // https://regex101.com/r/YLFEdl/1
@@ -154,5 +119,63 @@ public class Main {
         }
 */
 
+    }
+    public static ArrayList<String> format (String version){
+        ArrayList<String> ver = new ArrayList<>();
+        return ver;
+    }
+
+    public static String formatForCompare(String version1, String version2){
+        ArrayList<String> ver1= new ArrayList<String>();
+        ArrayList<String> ver2= new ArrayList<String>();
+        String result = null;
+        Pattern patterngroups = Pattern.compile("([0-9]{1,3})", Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = patterngroups.matcher("2");
+        Matcher matcher2 = patterngroups.matcher("1.9");
+        int nmatchsgroups = matcher1.groupCount();
+
+        while (matcher1.find()){
+            //starting on 1 because 0 is the whole string
+            for (int i = 1; i <= matcher1.groupCount(); i++) {
+                ver1.add(matcher1.group(i));
+                //System.out.println(matcher1.group(i));
+            }
+        }
+        System.out.println(ver1);
+        if(ver1.size()<3){
+            while(ver1.size()<3){
+                ver1.add("0");
+            }
+        }
+        System.out.println(ver1);
+        while(matcher2.find()){
+            for (int i = 1; i <= matcher2.groupCount(); i++) {
+                ver2.add(matcher2.group(i));
+            }
+        }
+        System.out.println(ver2);
+        if(ver2.size()<3){
+            while(ver2.size()<3){
+                ver2.add("0");
+            }
+        }
+        System.out.println(ver2);
+        compare(ver1, ver2);
+        return String.valueOf(nmatchsgroups);
+    }
+
+    public static String compare(ArrayList<String> compare1, ArrayList<String> compare2){
+        int i= 0;
+        while (i<compare1.size()){
+            if (Integer.parseInt(compare1.get(i))>Integer.parseInt(compare2.get(i))){
+
+                return "primer";
+            }else if (Integer.parseInt(compare1.get(i))<Integer.parseInt(compare2.get(i))){
+                return "segundo";
+            }else{
+                i++;
+            }
+        }
+        return "try";
     }
 }
