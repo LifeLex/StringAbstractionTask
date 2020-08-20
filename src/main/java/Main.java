@@ -48,13 +48,11 @@ class ServerString extends VersionString<ServerString>{
     
     public String compare(String version1, String version2){
         String result = null;
-        Pattern patterngroups = Pattern.compile("([0-9]{1,3})|([0-9]{1,3})\\.([0-9]{1,3})|([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})", Pattern.CASE_INSENSITIVE);
+        Pattern patterngroups = Pattern.compile("([0-9]{1,3})", Pattern.CASE_INSENSITIVE);
         Matcher matcher1 = patterngroups.matcher("1.8.8");
         Matcher matcher2 = patterngroups.matcher("1.9.8");
         int nmatchsgroups = matcher1.groupCount();
-        if(matcher1.matches()){
-            //reset to rematch all the string
-            matcher1.reset();
+
             while (matcher1.find()){
                 //starting on 1 because 0 is the whole string
                 for (int i = 1; i <= matcher1.groupCount(); i++) {
@@ -62,7 +60,7 @@ class ServerString extends VersionString<ServerString>{
                     System.out.println(matcher1.group(i));
                 }
             }
-        }
+
 
         return String.valueOf(nmatchsgroups);
     }
