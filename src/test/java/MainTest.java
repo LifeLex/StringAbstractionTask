@@ -19,6 +19,7 @@ class MainTest {
     ServerString c1 = null;
     ServerString invalid = null;
     Main main = null;
+
     @BeforeEach
     void setUp() {
         main = new Main();
@@ -29,19 +30,14 @@ class MainTest {
         b1 = new ServerString("1-alpha");
         c1 = new ServerString("1.1-alpha");
         invalid = new ServerString("1.1.1.1");
+
     }
 
     @AfterEach
     void tearDown() {
     }
 
-    @Test
-    void main() {
-        ServerString a2 = new ServerString("1.1.1");
-        assertEquals(a2.getVersion(),"1.1.1");
-        assertEquals(false, invalid.valid2(invalid.getVersion()), invalid.getVersion()+" is invalid");
-        //assertEquals(a.valid2(a.getVersion()), a.getVersion()+" is invalid");
-    }
+
 
     @Test
     void format3() {
@@ -54,7 +50,6 @@ class MainTest {
         assertEquals("1", test.get(1));
         assertEquals("1", test.get(2));
 
-        //assertEquals(new ArrayList<>(Arrays.asList("1, 1, 1")), main.format(a.getVersion()));
     }
     @Test
     void format2() {
@@ -67,7 +62,6 @@ class MainTest {
         assertEquals("1", test.get(1));
         assertEquals("0", test.get(2));
 
-        //assertEquals(new ArrayList<>(Arrays.asList("1, 1, 1")), main.format(a.getVersion()));
     }
     @Test
     void format1() {
@@ -80,7 +74,6 @@ class MainTest {
         assertEquals("0", test.get(1));
         assertEquals("0", test.get(2));
 
-        //assertEquals(new ArrayList<>(Arrays.asList("1, 1, 1")), main.format(a.getVersion()));
     }
     @Test
     void formatalpha3() {
@@ -93,7 +86,6 @@ class MainTest {
         assertEquals("1", test.get(1));
         assertEquals("1", test.get(2));
 
-        //assertEquals(new ArrayList<>(Arrays.asList("1, 1, 1")), main.format(a.getVersion()));
     }
     @Test
     void formatalpha2() {
@@ -106,7 +98,6 @@ class MainTest {
         assertEquals("1", test.get(1));
         assertEquals("0", test.get(2));
 
-        //assertEquals(new ArrayList<>(Arrays.asList("1, 1, 1")), main.format(a.getVersion()));
     }
     @Test
     void formatalpha1() {
@@ -136,7 +127,7 @@ class MainTest {
     @Test
     void compareLower() {
         main.compare(main.format(b.getVersion()), main.format(a.getVersion()), b, a);
-        assertEquals(b.getVersion()+" lower than "+a.getVersion(), main.compare(main.format(b.getVersion()), main.format(a.getVersion()), b, a));
+        assertEquals(b.getVersion()+" less than "+a.getVersion(), main.compare(main.format(b.getVersion()), main.format(a.getVersion()), b, a));
     }
     @Test
     void compareEqualsSame(){
@@ -148,6 +139,7 @@ class MainTest {
         main.compare(main.format(b.getVersion()), main.format(b1.getVersion()), b, b1);
         assertEquals(b.getVersion()+" is equal to "+b1.getVersion(), main.compare(main.format(b.getVersion()), main.format(b1.getVersion()), b, b1));
     }
+
 
 
 }

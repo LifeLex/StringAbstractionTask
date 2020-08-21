@@ -12,6 +12,8 @@ class ServerStringTest {
     ServerString b1 = null;
     ServerString c1 = null;
     ServerString invalid = null;
+    ServerString invalid1 = null;
+    ServerString invalid2 = null;
 
     @BeforeEach
     void setUp() {
@@ -22,16 +24,14 @@ class ServerStringTest {
         b1 = new ServerString("1-alpha");
         c1 = new ServerString("1.1-alpha");
         invalid = new ServerString("1.1.1.1");
+        invalid1 = new ServerString("1.1.1.a");
+        invalid2 = new ServerString(".1.1.1");
     }
 
     @AfterEach
     void tearDown() {
     }
 
-    @Test
-    void valid() {
-        assertFalse(invalid.valid(invalid));
-    }
 
     @Test
     void valid2() {

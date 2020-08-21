@@ -12,7 +12,7 @@ abstract class VersionString<T>{
     }
 
 
-    public abstract boolean valid(T str);
+
     public abstract boolean valid2(String version);
 
 }
@@ -22,11 +22,6 @@ class ServerString extends VersionString<ServerString>{
     public ServerString(String version) {
         super(version);
 
-    }
-
-    @Override
-    public boolean valid(ServerString str) {
-        return false;
     }
 
 
@@ -46,8 +41,7 @@ class ServerString extends VersionString<ServerString>{
 
 
 }
-// https://regex101.com/r/vR7yO4/15 capture the whole string to get if valid
-//capture groups for comparing
+
 public class Main {
     public static void main(String[] args) {
 
@@ -95,7 +89,7 @@ public class Main {
                 break;
 
             }else if (Integer.parseInt(compare1.get(i))<Integer.parseInt(compare2.get(i))){
-               result=(a.getVersion()+" lower than "+b.getVersion());
+               result=(a.getVersion()+" less than "+b.getVersion());
                 break;
             }else{
                 i++;
