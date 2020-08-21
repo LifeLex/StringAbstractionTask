@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-abstract class VersionString{
+abstract class VersionString<T>{
     private String version;
     public VersionString(String version){
         this.version= version;
@@ -11,95 +12,93 @@ abstract class VersionString{
     }
 
 
-    public abstract boolean valid(VersionString str);
+
     public abstract boolean valid2(String version);
+
 }
-class ServerString extends VersionString{
-    //String address;
+class ServerString extends VersionString<ServerString>{
+
 
     public ServerString(String version) {
         super(version);
-        System.out.println("Server String constructor");
+
     }
 
-    @Override
-    public boolean valid(VersionString str) {
-        System.out.println("------>"+str.getVersion());
-        return false;
-    }
 
+    //Call getVersion to get the string and check if its valid or not for a comparaison
     @Override
     public boolean valid2(String version) {
-        System.out.println("I'm printing version "+version);
-        return false;
+
+        Pattern pattern = Pattern.compile("((?:[0-9]{1,3}\\.?){0,2}[0-9]{1,3})(?:-\\w*)?", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(version);
+        if (matcher.matches()){
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
-    /*
-    @Override
-    public String toString() {
-        return address;
-    }
 
-     */
-
-    /*@Override
-    public boolean valid(VersionString str) {
-        System.out.println("------>"+str.getVersion());
-        return false;
-    }*/
 }
-// https://regex101.com/r/vR7yO4/15 capture the whole string to get if valid
-//capture groups for comparing
+
 public class Main {
     public static void main(String[] args) {
 
-        ServerString a = new ServerString("abc");
-        ServerString b = new ServerString("cdb");
-        a.valid(a);
-        b.valid(b);
-        b.valid2(b.getVersion());
-        System.out.println(a.getVersion());
-
-       // https://regex101.com/r/YLFEdl/1
-        Pattern pattern = Pattern.compile("((?:[0-9]{1,3}\\.?){0,2}[0-9]{1,3})(?:-\\w*)?", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher("1.9.8-alpha");
-        boolean matchFound = matcher.matches();
-        int nmatchs = matcher.groupCount();
-        if(matchFound) {
-            System.out.println("Match found");
-        } else {
-            System.out.println("Match not found");
+        ServerString a = new ServerString("1.8.8-alpha");
+        ServerString b = new ServerString("2.0.0");
+        String result= null;
+        if (b.valid2(b.getVersion()) && a.valid2(a.getVersion())){
+           result=  compare(format(a.getVersion()), format(b.getVersion()), a, b);
+           System.out.println(result);
+        }else if (!a.valid2(a.getVersion())){
+            System.out.println(a.getVersion()+" is invalid");
+        }else if(!b.valid2(b.getVersion())){
+            System.out.println(b.getVersion()+" is invalid");
         }
 
-        if(nmatchs==1) {
-            System.out.println(matcher.group(nmatchs));
-        } else {
-            for (int i = 0; i < nmatchs; i++) {
-                System.out.println(matcher.group(i));
 
+    }
+    public static ArrayList<String> format (String version){
+        ArrayList<String> ver = new ArrayList<>();
+        Pattern patterngroups = Pattern.compile("([0-9]{1,3})", Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = patterngroups.matcher(version);
+        while (matcher1.find()){
+            //starting on 1 because 0 is the whole string
+            for (int i = 1; i <= matcher1.groupCount(); i++) {
+                ver.add(matcher1.group(i));
             }
         }
 
-        //https://regex101.com/r/vR7yO4/15
-        Pattern patterngroups = Pattern.compile("(([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})|([0-9]{1,3})\\.([0-9]{1,3})|([0-9]{1,3}))(?:-\\w*)?", Pattern.CASE_INSENSITIVE);
-        Matcher matchergroups = patterngroups.matcher("1.9.8");
-        boolean matchFoundgroups = matchergroups.matches();
-        int nmatchsgroups = matchergroups.groupCount();
-        if(matchFoundgroups) {
-            System.out.println("Match found groups");
-        } else {
-            System.out.println("Match not found");
-        }
-
-        if(nmatchsgroups==1) {
-            System.out.println(matchergroups.group(nmatchsgroups));
-        } else {
-            for (int i = 0; i < nmatchsgroups; i++) {
-                System.out.println(matchergroups.group(i));
-
+        if(ver.size()<3){
+            while(ver.size()<3){
+                ver.add("0");
             }
         }
 
+        return ver;
+    }
+
+
+    public static String  compare(ArrayList<String> compare1, ArrayList<String> compare2, ServerString a, ServerString b){
+        int i= 0;
+        String result= null;
+        while (i<compare1.size()){
+            if (Integer.parseInt(compare1.get(i))>Integer.parseInt(compare2.get(i))){
+                result=(a.getVersion()+" greater than "+b.getVersion());
+                break;
+
+            }else if (Integer.parseInt(compare1.get(i))<Integer.parseInt(compare2.get(i))){
+               result=(a.getVersion()+" less than "+b.getVersion());
+                break;
+            }else{
+                i++;
+            }
+            if (i==compare1.size()-1){
+                result=(a.getVersion()+" is equal to "+b.getVersion());
+            }
+        }
+        return result;
 
     }
 }
