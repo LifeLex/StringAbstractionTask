@@ -1,6 +1,8 @@
+package com.company;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 abstract class VersionString<T>{
     private String version;
@@ -43,18 +45,29 @@ class ServerString extends VersionString<ServerString>{
 }
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalArgumentException {
+        try {
+            if (args.length<2 || args.length>2) {
+                throw new IllegalArgumentException("Error in the number of arguments");
+            }else{
 
-        ServerString a = new ServerString("1.8.8-alpha");
-        ServerString b = new ServerString("2.0.0");
-        String result= null;
-        if (b.valid2(b.getVersion()) && a.valid2(a.getVersion())){
-           result=  compare(format(a.getVersion()), format(b.getVersion()), a, b);
-           System.out.println(result);
-        }else if (!a.valid2(a.getVersion())){
-            System.out.println(a.getVersion()+" is invalid");
-        }else if(!b.valid2(b.getVersion())){
-            System.out.println(b.getVersion()+" is invalid");
+
+                ServerString a = new ServerString(args[0]);
+                ServerString b = new ServerString(args[1]);
+
+                String result = null;
+                if (b.valid2(b.getVersion()) && a.valid2(a.getVersion())) {
+                    result = compare(format(a.getVersion()), format(b.getVersion()), a, b);
+                    System.out.println(result);
+                } else if (!a.valid2(a.getVersion())) {
+                    System.out.println(a.getVersion() + " is invalid");
+                } else if (!b.valid2(b.getVersion())) {
+                    System.out.println(b.getVersion() + " is invalid");
+                }
+            }
+
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
         }
 
 
