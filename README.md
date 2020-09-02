@@ -1,0 +1,1 @@
+The arguments passed to the jar file must be the 2 versions that we want to compare
